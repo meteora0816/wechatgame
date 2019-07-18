@@ -48,13 +48,14 @@ cc.Class({
 
      onLoad: function() {
          this.animcom = this.node.getChildByName("leaves").addComponent("animation");
-         this.speed = 100;
+         this.speed = 200;
+         this.speedy = -40*Math.random();
          this.type = Math.random()*2+1;
          this.type = Math.floor(this.type);
          this.node.x = -560;
          this.node.y = -225+Math.random()*475; //[-225,250]
          this._setType();
-         console.log(this.type);
+        //  console.log(this.type);
      },
 
      _setType: function() {
@@ -66,9 +67,11 @@ cc.Class({
 
      update: function(dt) {
         let x = this.speed*dt;
+        let y = this.speedy*dt;
         this.node.x += x;
-        if (this.node.x>=560) {
-            console.log("remove leaf");
+        this.node.y += y;
+        if (this.node.x>=560||this.node.y<=-350) {
+            // console.log("remove leaf");
             this.node.removeFromParent();
         }
      },

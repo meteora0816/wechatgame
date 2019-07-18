@@ -49,7 +49,7 @@ cc.Class({
         let leaf = cc.instantiate(this.leaf_prefab);
         this.leaf_root.addChild(leaf);
 
-        let time = 2+Math.random()*3;
+        let time = Math.random()*2;
         this.scheduleOnce(this.gen_leaf.bind(this), time);
     },
 

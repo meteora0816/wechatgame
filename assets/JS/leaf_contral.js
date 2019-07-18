@@ -27,6 +27,10 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+        leaf_root: {
+            type: cc.Node,
+            default: null,
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -34,33 +38,71 @@ cc.Class({
     onLoad () {
         console.log("leaf fly");
         this.dir = 0;
+        this.m = 50;
+        this.ax = 0;
+        this.fx = 300;
+        this.speedx = 0;
         this.speed = 10;
         this.down();
     },
 
     up: function() {
-        console.log("leaf up");
-        this.speed = 30;
+        // console.log("leaf up");
+        this.speed = 250;
         this.dir = 1;
     },
 
     down: function() {
-        console.log("leaf down");
-        this.speed = 50;
+        // console.log("leaf down");
+        this.speed = 150;
         this.dir = 0;
     },
 
     // start () {
 
     // },
+    hit_test() {
+        for (let i=0; i < this.leaf_root.childrenCount; i++) {
+            let leaf = this.leaf_root.children[i];
+            if (Math.abs(leaf.x-this.node.x) <= 30 &&  Math.abs(leaf.y-this.node.y) <= 30) {
+                return leaf;
+            }
+        }
+        return null;
+    },
+
+    wind(wind_f) {
+        this.fx -= wind_f;
+        let time = 0.3;
+        this.scheduleOnce(function() {
+            // console.log("back!");
+            this.fx += wind_f;
+        }, time);
+    },
 
     update (dt) {
         let y = dt*this.speed;
         if (this.dir===1) {
-            this.node.y += y;
+            if (this.node.y<=300) this.node.y += y;
         }
         else {
-            this.node.y -= y;
+            if (this.node.y>=-300) this.node.y -= y;
+        }
+        
+        this.ax = (this.fx-this.speedx*6)/this.m;
+        this.speedx += this.ax;
+        let x = dt*this.speedx;
+        if (x>0 || this.node.x>=-480) this.node.x += x;
+
+        let leaf = this.hit_test();
+        if (leaf) {
+            console.log("hit!");
+            let leaf_type = leaf.getComponent("leaves");
+            console.log(leaf_type.type);
+            if (leaf_type.type===1) {
+                this.wind(7000);
+            }
+            leaf.removeFromParent();
         }
     },
 });
