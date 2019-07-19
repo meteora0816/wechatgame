@@ -1,33 +1,13 @@
-// Learn cc.Class:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
         leaf_root: {
+            type: cc.Node,
+            default: null,
+        },
+
+        main: {
             type: cc.Node,
             default: null,
         },
@@ -35,24 +15,26 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
         console.log("leaf fly");
-        this.dir = 0;
         this.m = 50;
         this.ax = 0;
         this.fx = 300;
         this.speedx = 0;
-        this.speed = 10;
+        this.speed = 0;
+        this.dir = 0;
         this.down();
+
+        this.over = false;
     },
 
-    up: function() {
+    up: function () {
         // console.log("leaf up");
         this.speed = 250;
         this.dir = 1;
     },
 
-    down: function() {
+    down: function () {
         // console.log("leaf down");
         this.speed = 150;
         this.dir = 0;
@@ -62,45 +44,75 @@ cc.Class({
 
     // },
     hit_test() {
-        for (let i=0; i < this.leaf_root.childrenCount; i++) {
+        for (let i = 0; i < this.leaf_root.childrenCount; i++) {
             let leaf = this.leaf_root.children[i];
-            if (Math.abs(leaf.x-this.node.x) <= 30 &&  Math.abs(leaf.y-this.node.y) <= 30) {
+            if (Math.abs(leaf.x - this.node.x) <= 30 && Math.abs(leaf.y - this.node.y) <= 30) {
                 return leaf;
             }
         }
         return null;
     },
 
-    wind(wind_f) {
+    wind(wind_f, time) {
         this.fx -= wind_f;
-        let time = 0.3;
-        this.scheduleOnce(function() {
+        this.scheduleOnce(function () {
             // console.log("back!");
             this.fx += wind_f;
         }, time);
     },
 
-    update (dt) {
-        let y = dt*this.speed;
-        if (this.dir===1) {
-            if (this.node.y<=300) this.node.y += y;
+    hit(type) {
+        this.main.getComponent("main").hit(type);
+    },
+
+    gameover() {
+        if (this.over === true) return;
+        this.over = true;
+        this.main.getComponent("main").gameover();
+
+    },
+
+    restart() {
+        this.node.x = 0;
+        this.node.y = 0;
+        this.over = false;
+    },
+
+    update(dt) {
+        let y = dt * this.speed;
+        if (this.dir === 1) {
+            if (this.node.y <= 300) this.node.y += y;
         }
         else {
-            if (this.node.y>=-300) this.node.y -= y;
+            if (this.node.y >= -300) this.node.y -= y;
         }
-        
-        this.ax = (this.fx-this.speedx*6)/this.m;
+
+        this.ax = (this.fx - this.speedx * 6) / this.m;
         this.speedx += this.ax;
-        let x = dt*this.speedx;
-        if (x>0 || this.node.x>=-480) this.node.x += x;
+        let x = dt * this.speedx;
+        if (x > 0 || this.node.x >= -480) this.node.x += x;
+        if (this.node.x >= 510) {
+            console.log("game over!");
+            if (this.over === false) this.gameover();
+            return;
+        }
 
         let leaf = this.hit_test();
         if (leaf) {
-            console.log("hit!");
-            let leaf_type = leaf.getComponent("leaves");
-            console.log(leaf_type.type);
-            if (leaf_type.type===1) {
-                this.wind(7000);
+            let leaf_type = leaf.getComponent("leaves").type;
+            if (leaf_type === 1) {
+                console.log("green");
+                this.hit("green");
+                this.wind(7000, 0.3);
+            }
+            else if (leaf_type === 2) {
+                console.log("yellow");
+                this.hit("yellow");
+            }
+            else if (leaf_type === 3) {
+                console.log("red");
+                this.hit("red");
+                this.wind(-4000, 0.3);
             }
             leaf.removeFromParent();
         }

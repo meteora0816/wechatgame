@@ -49,7 +49,7 @@ cc.Class({
 
     touch_start () {
         console.log("up");
-        console.log(this.contral);
+        // console.log(this.contral);
         // let contral = this.leaf.getComponent("leaf_contral");
         this.contral.up();
         
@@ -57,7 +57,7 @@ cc.Class({
 
     touch_end () {
         console.log("down");
-        console.log(this.contral);
+        // console.log(this.contral);
         // let contral = this.leaf.getComponent("leaf_contral");
         this.contral.down();
         

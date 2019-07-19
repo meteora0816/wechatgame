@@ -12,7 +12,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "leaf",
+    "_name": "leaf1",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -28,7 +28,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 8
+      "__id__": 9
     },
     "_opacity": 255,
     "_color": {
@@ -172,7 +172,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "76sZH9O+RJAo6hLzrBtKyN",
+    "fileId": "a4TwxS5DxJwpXjhDEYukYQ",
     "sync": false
   },
   {
@@ -189,6 +189,9 @@
       },
       {
         "__id__": 7
+      },
+      {
+        "__id__": 8
       }
     ],
     "_id": ""
@@ -210,6 +213,14 @@
     ]
   },
   {
+    "__type__": "skin",
+    "anim": [
+      {
+        "__uuid__": "e007a303-fe13-42f6-9716-9d5d41ef07d3"
+      }
+    ]
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -217,7 +228,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "c4pfTRZa9DoI9q7MmPH5qd",
+    "fileId": "c241yDSwBGxJ8BNruXAcFb",
     "sync": false
   }
 ]

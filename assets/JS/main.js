@@ -1,34 +1,18 @@
-// Learn cc.Class:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
-
         leaf_prefab: {
+            type: cc.Prefab,
+            default: null,
+        },
+
+        leaf_prefab_character: {
+            type: cc.Prefab,
+            default: null,
+        },
+
+        leaf_prefab_restartButton: {
             type: cc.Prefab,
             default: null,
         },
@@ -37,24 +21,76 @@ cc.Class({
             type: cc.Node,
             default: null,
         },
+
+        contral_leaf: {
+            type: cc.Node,
+            default: null,
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
 
+    },
+
+    restart(event) {
+        this.score = 0;
+        this.gen = true;
+        this.gen_leaf();
+        this.contral_leaf.getComponent("leaf_contral").restart();
+        for (let i = 0; i < this.node.childrenCount; i++) {
+            console.log(this.node.children[i]);
+            if (this.node.children[i].name === "number") {
+                this.node.children[i].removeFromParent();
+            }
+        }
+
+        for (let i = 0; i < this.node.childrenCount; i++) {
+            console.log(this.node.children[i]);
+            if (this.node.children[i].name === "New Button") {
+                this.node.children[i].removeFromParent();
+            }
+        }
+    },
+
+    hit(type) {
+        if (type === "green") {
+            console.log("hit green!");
+            this.score++;
+        }
+    },
+
+    gameover() {
+        this.stop_gen_leaf();
+        let button = cc.instantiate(this.leaf_prefab_restartButton);
+        this.node.addChild(button);
+
+        let character = cc.instantiate(this.leaf_prefab_character);
+        this.node.addChild(character);
+
+        this.node.getChildByName("leaves_2_score").getChildByName("Label").getComponent(cc.Label).string = this.score;
+        console.log(this.node.getChildByName("leaves_2_score").getChildByName("Label").getComponent(cc.Label).String);
+
+        button.on("click", this.restart, this);
+    },
+
+    stop_gen_leaf() {
+        this.gen = false;
     },
 
     gen_leaf() {
+        if (this.gen === false) return;
         let leaf = cc.instantiate(this.leaf_prefab);
         this.leaf_root.addChild(leaf);
-
-        let time = Math.random()*2;
+        let time = Math.random() * 2;
         this.scheduleOnce(this.gen_leaf.bind(this), time);
     },
 
-    start () {
+    start() {
         console.log("start");
+        this.score = 0;
+        this.gen = true;
         this.gen_leaf();
     },
 
