@@ -7,8 +7,8 @@ cc.Class({
             default: null,
         },
 
-        leaf_prefab_character: {
-            type: cc.Prefab,
+        leaf_number_character: {
+            type: cc.Node,
             default: null,
         },
 
@@ -25,7 +25,22 @@ cc.Class({
         contral_leaf: {
             type: cc.Node,
             default: null,
-        }
+        },
+
+        leaves_2_score: {
+            type: cc.Node,
+            default: null,
+        },
+
+        leaves_3_score: {
+            type: cc.Node,
+            default: null,
+        },
+
+        restartButton: {
+            type: cc.Node,
+            default: null,
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -34,45 +49,50 @@ cc.Class({
 
     },
 
+    score_board(vis) {
+        this.leaves_2_score.active = vis;
+        this.leaves_3_score.active = vis;
+        this.leaf_number_character.active = vis;
+        this.restartButton.active = vis;
+    },
+
     restart(event) {
-        this.score = 0;
+        this.score_green = 0;
+        this.score_yellow = 0;
         this.gen = true;
         this.gen_leaf();
         this.contral_leaf.getComponent("leaf_contral").restart();
-        for (let i = 0; i < this.node.childrenCount; i++) {
-            console.log(this.node.children[i]);
-            if (this.node.children[i].name === "number") {
-                this.node.children[i].removeFromParent();
-            }
-        }
-
-        for (let i = 0; i < this.node.childrenCount; i++) {
-            console.log(this.node.children[i]);
-            if (this.node.children[i].name === "New Button") {
-                this.node.children[i].removeFromParent();
-            }
-        }
+        
+        this.score_board(false);
     },
 
     hit(type) {
         if (type === "green") {
             console.log("hit green!");
-            this.score++;
+            this.score_green++;
+        }
+        else if (type === "yellow") {
+            console.log("hit yellow!");
+            this.score_yellow++;
         }
     },
 
     gameover() {
         this.stop_gen_leaf();
-        let button = cc.instantiate(this.leaf_prefab_restartButton);
-        this.node.addChild(button);
 
-        let character = cc.instantiate(this.leaf_prefab_character);
-        this.node.addChild(character);
+        // let button = cc.instantiate(this.leaf_prefab_restartButton);
+        // this.node.addChild(button);
 
-        this.node.getChildByName("leaves_2_score").getChildByName("Label").getComponent(cc.Label).string = this.score;
-        console.log(this.node.getChildByName("leaves_2_score").getChildByName("Label").getComponent(cc.Label).String);
+    
+        // let leaves_2_score = this.node.getChildByName("leaves_2_score").getChildByName("Label");
 
-        button.on("click", this.restart, this);
+        this.leaves_3_score.getChildByName("Label").getComponent(cc.Label).string = this.score_green;
+        this.leaves_2_score.getChildByName("Label").getComponent(cc.Label).string = this.score_yellow;
+        // console.log(this.leaves_2_score.getChildByName("Label").getComponent(cc.Label).string);
+
+        this.score_board(true);
+
+        // button.on("click", this.restart, this);
     },
 
     stop_gen_leaf() {
@@ -88,8 +108,11 @@ cc.Class({
     },
 
     start() {
+        this.score_board(false);
+
         console.log("start");
-        this.score = 0;
+        this.score_green = 0;
+        this.score_yellow = 0;
         this.gen = true;
         this.gen_leaf();
     },
