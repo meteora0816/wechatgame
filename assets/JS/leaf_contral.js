@@ -11,6 +11,7 @@ cc.Class({
             type: cc.Node,
             default: null,
         },
+
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -63,6 +64,7 @@ cc.Class({
 
     hit(type) {
         this.main.getComponent("main").hit(type);
+        this.audio
     },
 
     gameover() {
@@ -92,7 +94,7 @@ cc.Class({
         let x = dt * this.speedx;
         if (x > 0 || this.node.x >= -480) this.node.x += x;
         if (this.node.x >= 510) {
-            console.log("game over!");
+            // console.log("game over!");
             if (this.over === false) this.gameover();
             return;
         }

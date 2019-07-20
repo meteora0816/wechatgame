@@ -12,11 +12,6 @@ cc.Class({
             default: null,
         },
 
-        leaf_prefab_restartButton: {
-            type: cc.Prefab,
-            default: null,
-        },
-
         leaf_root: {
             type: cc.Node,
             default: null,
@@ -41,6 +36,11 @@ cc.Class({
             type: cc.Node,
             default: null,
         },
+
+        backButton: {
+            type: cc.Node,
+            default: null,
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -54,6 +54,9 @@ cc.Class({
         this.leaves_3_score.active = vis;
         this.leaf_number_character.active = vis;
         this.restartButton.active = vis;
+        this.backButton.active = vis;
+        //更改全局按钮透明度
+
     },
 
     restart(event) {
@@ -70,6 +73,7 @@ cc.Class({
         if (type === "green") {
             console.log("hit green!");
             this.score_green++;
+            this.getComponent("AudioEngine").play_green();
         }
         else if (type === "yellow") {
             console.log("hit yellow!");
