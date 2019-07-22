@@ -47,11 +47,12 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
      onLoad: function() {
-         this.animcom = this.node.getChildByName("leaves").addComponent("animation");
+         this.animcom = this.node.getComponent("leaves").addComponent("animation");
          this.speed = 200;
          this.speedy = -40*Math.random();
-         this.type = Math.random()*3+1;
-         this.type = Math.floor(this.type);
+        //  this.type = Math.random()*3+1;
+        //  this.type = Math.floor(this.type);
+         this.type = 5;
          this.node.x = -560;
          this.node.y = -225+Math.random()*475; //[-225,250]
          this._setType();

@@ -1,3 +1,13 @@
+var skin = cc.Class({
+    name: "skin",
+    properties: {
+        anim: {
+            default: [],
+            type: cc.SpriteFrame,
+        },
+    }
+});
+
 cc.Class({
     extends: cc.Component,
 
@@ -12,6 +22,10 @@ cc.Class({
             default: null,
         },
 
+        skin: {
+            default: [],
+            type: skin,
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -25,8 +39,11 @@ cc.Class({
         this.speed = 0;
         this.dir = 0;
         this.down();
-
         this.over = false;
+        this.animcom = this.node.addComponent("animation");
+        this.animcom.frames = this.skin[0].anim;
+        this.animcom.duration = 0.1;
+        this.animcom.play_loop();
     },
 
     up: function () {
@@ -44,6 +61,7 @@ cc.Class({
     // start () {
 
     // },
+
     hit_test() {
         for (let i = 0; i < this.leaf_root.childrenCount; i++) {
             let leaf = this.leaf_root.children[i];
@@ -64,14 +82,13 @@ cc.Class({
 
     hit(type) {
         this.main.getComponent("main").hit(type);
-        this.audio
+        // this.audio
     },
 
     gameover() {
         if (this.over === true) return;
         this.over = true;
         this.main.getComponent("main").gameover();
-
     },
 
     restart() {

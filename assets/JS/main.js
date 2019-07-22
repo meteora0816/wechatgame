@@ -70,10 +70,11 @@ cc.Class({
     },
 
     hit(type) {
+        this.getComponent("AudioEngine").play_green();
         if (type === "green") {
             console.log("hit green!");
             this.score_green++;
-            this.getComponent("AudioEngine").play_green();
+            // this.getComponent("AudioEngine").play_green();
         }
         else if (type === "yellow") {
             console.log("hit yellow!");
@@ -118,7 +119,7 @@ cc.Class({
         this.score_green = 0;
         this.score_yellow = 0;
         this.gen = true;
-        this.gen_leaf();
+        // this.gen_leaf();
     },
 
     // update (dt) {},

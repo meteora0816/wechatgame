@@ -25,10 +25,10 @@ cc.Class({
         if (!com) {
             com = this.node.addComponent(cc.Sprite);
         }
+        com.width = 50;
         this.sprite = com;
         this.is_playing = false;
         this.play_time = 0;
-
         // if (this.play_onload) {
         //     this.sprite.SpriteFrame = this.frames[0];
         //     this.play_loop();
