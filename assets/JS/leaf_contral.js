@@ -1,5 +1,5 @@
-var skin = cc.Class({
-    name: "skin",
+var skinl = cc.Class({
+    name: "skinl",
     properties: {
         anim: {
             default: [],
@@ -22,9 +22,9 @@ cc.Class({
             default: null,
         },
 
-        skin: {
+        skinl: {
             default: [],
-            type: skin,
+            type: skinl,
         },
     },
 
@@ -41,7 +41,7 @@ cc.Class({
         this.down();
         this.over = false;
         this.animcom = this.node.addComponent("animation");
-        this.animcom.frames = this.skin[0].anim;
+        this.animcom.frames = this.skinl[0].anim;
         this.animcom.duration = 0.1;
         this.animcom.play_loop();
     },
@@ -100,10 +100,10 @@ cc.Class({
     update(dt) {
         let y = dt * this.speed;
         if (this.dir === 1) {
-            if (this.node.y <= 300) this.node.y += y;
+            if (this.node.y <= 320) this.node.y += y;
         }
         else {
-            if (this.node.y >= -300) this.node.y -= y;
+            if (this.node.y >= -320) this.node.y -= y;
         }
 
         this.ax = (this.fx - this.speedx * 6) / this.m;
@@ -120,18 +120,26 @@ cc.Class({
         if (leaf) {
             let leaf_type = leaf.getComponent("leaves").type;
             if (leaf_type === 1) {
-                console.log("green");
-                this.hit("green");
+                console.log("light green");
+                this.hit("light green");
                 this.wind(7000, 0.3);
             }
             else if (leaf_type === 2) {
-                console.log("yellow");
-                this.hit("yellow");
-            }
-            else if (leaf_type === 3) {
                 console.log("red");
                 this.hit("red");
                 this.wind(-4000, 0.3);
+            }
+            else if (leaf_type === 3) {
+                console.log("yellow");
+                this.hit("yellow");
+            }
+            else if (leaf_type === 4) {
+                console.log("green");
+                this.hit("green");
+            }
+            else if (leaf_type === 5) {
+                console.log("flower");
+                this.hit("flower");
             }
             leaf.removeFromParent();
         }
