@@ -40,7 +40,7 @@ cc.Class({
             }
         }
         if (!flag) {
-            let time = Math.random()*5+1;
+            let time = Math.random()*3+1;
             this.scheduleOnce(this.genCloud.bind(this), time);
             return;
         }
@@ -71,7 +71,7 @@ cc.Class({
         var seq = cc.sequence([m1,endFunc]);
         this.node.getChildByName(cho.toString()).runAction(seq);
 
-        let time = Math.random()*10+1;
+        let time = Math.random()*3+1;
         this.scheduleOnce(this.genCloud.bind(this), time);
     },
 

@@ -92,23 +92,33 @@ cc.Class({
     },
 
     hit(type) {
-        this.getComponent("AudioEngine").play_green();
+        
         if (type === "green") {
             // console.log("hit green!");
             this.score_green++;
             this.change_score(10);
+            this.getComponent("AudioEngine").play_music();
             // this.getComponent("AudioEngine").play_green();
         }
         else if (type === "yellow") {
             // console.log("hit yellow!");
             this.score_yellow++;
             this.change_score(1);
+            this.getComponent("AudioEngine").play_music();
         }
         else if (type === "flower") {
             // console.log("hit yellow!");
             this.score_flower++;
             this.change_score(30);
+            this.getComponent("AudioEngine").play_music();
         }
+        else if (type === "light green") {
+            this.getComponent("AudioEngine").play_music();
+        }
+        else {
+            this.getComponent("AudioEngine").play_red();
+        }
+
     },
 
     gameover() {
@@ -140,7 +150,7 @@ cc.Class({
         if (this.gen === false) return;
         let leaf = cc.instantiate(this.leaf_prefab);
         this.leaf_root.addChild(leaf);
-        let time = Math.random() * 2;
+        let time = 0.5; //Math.random() * 2;
         this.scheduleOnce(this.gen_leaf.bind(this), time);
     },
 
