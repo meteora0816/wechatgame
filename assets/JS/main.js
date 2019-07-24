@@ -27,6 +27,10 @@ cc.Class({
             default: null,
         },
 
+        score: {
+            type: cc.Node,
+            default: null,
+        },
         // leaves_2_score: {
         //     type: cc.Node,
         //     default: null,
@@ -63,7 +67,7 @@ cc.Class({
         // this.backButton.active = vis;
 
         this.gameOver.active = vis;
-
+        this.score.active = !vis;
         //更改全局按钮透明度
 
     },
@@ -72,6 +76,8 @@ cc.Class({
         this.score_green = 0;
         this.score_yellow = 0;
         this.score_flower = 0;
+        this.total_score = 0;
+        this.change_score(0);
 
         this.gen = true;
         this.gen_leaf();
@@ -80,20 +86,28 @@ cc.Class({
         this.score_board(false);
     },
 
+    change_score(num) {
+        this.total_score += num;
+        this.node.getChildByName("current score").getChildByName("score").getComponent(cc.Label).string = this.total_score;
+    },
+
     hit(type) {
         this.getComponent("AudioEngine").play_green();
         if (type === "green") {
             // console.log("hit green!");
             this.score_green++;
+            this.change_score(10);
             // this.getComponent("AudioEngine").play_green();
         }
         else if (type === "yellow") {
             // console.log("hit yellow!");
             this.score_yellow++;
+            this.change_score(1);
         }
         else if (type === "flower") {
             // console.log("hit yellow!");
             this.score_flower++;
+            this.change_score(30);
         }
     },
 
@@ -137,6 +151,8 @@ cc.Class({
         this.score_green = 0;
         this.score_yellow = 0;
         this.score_flower = 0;
+        this.total_score = 0;
+        this.change_score(0);
 
         this.gen = true;
         this.gen_leaf();
