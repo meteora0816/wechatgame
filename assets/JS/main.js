@@ -150,11 +150,15 @@ cc.Class({
         if (this.gen === false) return;
         let leaf = cc.instantiate(this.leaf_prefab);
         this.leaf_root.addChild(leaf);
-        let time = 0.5; //Math.random() * 2;
+        let time = Math.random();
         this.scheduleOnce(this.gen_leaf.bind(this), time);
     },
 
     start() {
+        
+        // nextScene.js
+        this.node.getComponent("fade").fadeFromWhite();
+
         this.score_board(false);
 
         console.log("start");

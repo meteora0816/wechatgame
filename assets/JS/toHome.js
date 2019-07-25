@@ -27,6 +27,10 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+        main: {
+            default: null,
+            type: cc.Node,
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -34,7 +38,9 @@ cc.Class({
     // onLoad () {},
 
     toHomeScene() {
-        cc.director.loadScene("home_scene");
+        // cc.director.loadScene("home_scene");
+
+        this.main.getComponent("fade").fadeIntoWhite("home_scene");
     },
 
     start () {

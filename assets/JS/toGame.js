@@ -34,12 +34,14 @@ cc.Class({
     // onLoad () {},
 
     toGameScene() {
-        cc.director.loadScene("game_scenes");
+        // cc.director.loadScene("game_scenes");
+
+        this.node.parent.getComponent("fade").fadeIntoWhite("game_scenes");
     },
 
     start () {
-
-    },
+        this.node.parent.getComponent("fade").fadeFromWhite();
+    }, 
 
     // update (dt) {},
 });

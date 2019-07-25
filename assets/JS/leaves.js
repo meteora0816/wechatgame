@@ -22,22 +22,6 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
-
         skin_set: {
             default: [],
             type: skin,
@@ -48,10 +32,38 @@ cc.Class({
 
      onLoad: function() {
          this.animcom = this.node.getComponent("leaves").addComponent("animation");
-         this.speed = 200;
+         this.speed = 190;
+         this.speed += Math.random()*40;
+         if (Math.random()<0.05) this.speed += 300;
          this.speedy = -40*Math.random();
-         this.type = Math.random()*5+1;
+
+
+        //probability
+        //0 light green 0.35
+        //1 red 0.2
+        //2 yellow 0.38
+        //3 green 0.05
+        //4 flower 0.02
+        let tmp = Math.random();
+        if (tmp < 0.35) {
+            this.type = 1;
+        }
+        else if (tmp < 0.35+0.2) {
+            this.type = 2;
+        }
+        else if (tmp < 0.35+0.2+0.38) {
+            this.type = 3;
+        }
+        else if (tmp < 0.35+0.2+0.38+0.05) {
+            this.type = 4;
+        }
+        else {
+            this.type = 5;
+        }
+        //  this.type = Math.random()*5+1;
          this.type = Math.floor(this.type);
+
+
         //  this.type = 5;
          this.node.x = -560;
          this.node.y = -225+Math.random()*475; //[-225,250]

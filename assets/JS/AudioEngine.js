@@ -80,15 +80,11 @@ cc.Class({
         this.cur++;
         if (this.cur===21) this.cur = 0;
         cc.audioEngine.play(this.audio[0].audio[this.cur], false, 1);
-        // cc.audioEngine.play(this.G, false, 1);
-        // cc.audioEngine.play(this.G, false, 1);
-        // cc.audioEngine.play(this.G, false, 1);
-        // cc.audioEngine.play(this.A, false, 1);
-        // cc.audioEngine.play(this.G, false, 1);
     },
 
     play_red: function() {
-        cc.audioEngine.play(this.red, false, 1);
+        let id = cc.audioEngine.play(this.red, false, 1);
+        cc.audioEngine.setVolume(id, 0.3);
         this.cur = 0;
     }
     // update (dt) {},
