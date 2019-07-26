@@ -33,7 +33,7 @@ cc.Class({
 
     genCloud() {
         let flag = false;
-        for (let i=0;i<5;i++) {
+        for (let i=0;i<4;i++) {
             if(this.isMoving[i]===0) {
                 flag = true;
                 break;
@@ -45,7 +45,7 @@ cc.Class({
             return;
         }
         
-        let n = Math.random()*5+1;
+        let n = Math.random()*4+1;
         n = Math.floor(n);
 
         console.log(n);
@@ -53,7 +53,7 @@ cc.Class({
         let cho=0;
         while(n!==0) {
             cho++;
-            if (cho>5) cho=1;
+            if (cho>4) cho=1;
             if (this.isMoving[cho-1]===0) n--;
         }
 
@@ -82,7 +82,7 @@ cc.Class({
     },
 
     onLoad () {
-        this.isMoving = [0, 0, 0, 0, 0];
+        this.isMoving = [0, 0, 0, 0];
 
         this.genCloud();
 

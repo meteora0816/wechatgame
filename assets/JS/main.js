@@ -156,6 +156,7 @@ cc.Class({
 
     start() {
         
+
         // nextScene.js
         this.node.getComponent("fade").fadeFromWhite();
 
@@ -168,8 +169,45 @@ cc.Class({
         this.total_score = 0;
         this.change_score(0);
 
+        cc.loader.downloader.loadSubpackage('music', function (err) {
+            if (err) {
+                return console.error(err);
+            }
+            console.log('load subpackage successfully.');
+        });
+        // cc.loader.downloader.loadSubpackage('green', function (err) {
+        //     if (err) {
+        //         return console.error(err);
+        //     }
+        //     console.log('load subpackage successfully.');
+        // });
+        // cc.loader.downloader.loadSubpackage('flower', function (err) {
+        //     if (err) {
+        //         return console.error(err);
+        //     }
+        //     console.log('load subpackage successfully.');
+        // });
+        // cc.loader.downloader.loadSubpackage('light green', function (err) {
+        //     if (err) {
+        //         return console.error(err);
+        //     }
+        //     console.log('load subpackage successfully.');
+        // });
+        // cc.loader.downloader.loadSubpackage('yellow', function (err) {
+        //     if (err) {
+        //         return console.error(err);
+        //     }
+        //     console.log('load subpackage successfully.');
+        // });
+        // cc.loader.downloader.loadSubpackage('red', function (err) {
+        //     if (err) {
+        //         return console.error(err);
+        //     }
+        //     console.log('load subpackage successfully.');
+        // });
+
         this.gen = true;
-        this.gen_leaf();
+        this.scheduleOnce(this.gen_leaf.bind(this), 2);
     },
 
     // update (dt) {},
